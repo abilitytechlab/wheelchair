@@ -11,6 +11,7 @@ The design consists of a wheelchair-bridge system: a small low-level arduino boa
 
 ### bridge
 This folder will contain the design files of the circuit emulating a joystick. The pinout (9-pin D-sub) is given in the following figure: 
+
 ![9-pol d-sub connection for joystick](https://github.com/abilitytechlab/wheelchair/blob/main/bridge/joystick.jpeg)
 
 
