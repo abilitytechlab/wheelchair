@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+    <script type="text/javascript" type="text/javascript">
+        // Connecting to ROS2 
+        //var ros = new ROSLIB.Ros({ url : 'ws://localhost:9090'});
+        // Get the current host from the window location
+        var host = window.location.hostname;
+
+        // Create a new ROS connection using the host address and the specific port
+        var ros = new ROSLIB.Ros({
+            url: 'ws://' + host + ':9090'
+        });
+
+
+        ros.on('connection',function(){
+            console.log('Connected to websocket server');
+        });
+
+        ros.on('error', function(error){
+            console.log('Error connecting to websocket server: ', error);
+        });
+
+        ros.on('close', function(){
+            console.log('Connection to websocket server closed.');
+        });
+
+
+        // Publishing to a topic
+        // Here lets publish a string 'Go'
+
+        const Gobutton = new ROSLIB.Topic({
+            ros : ros,
+            name : '/webinput/command',
+            messageType: 'std_msgs/String'
+        });
+
+        const timeStampMsg = new ROSLIB.Topic({
+            ros : ros,
+            name : '/webinput/timestamp',
+            messageType: 'std_msgs/String'
+        });
+
+        const msgCount = new ROSLIB.Topic({
+            ros : ros,
+            name : '/webinput/counter',
+            messageType: 'std_msgs/String'
+        });
+document.addEventListener('DOMContentLoaded', function() {
+        (function() {
+
+            // counter of message
+            let count_ = 0;
+            let canSend = true; // Variable to control the command sending
+
+            function publishToROS(command, timestamp){
+                count_++;
+
+                const forward = new ROSLIB.Message({
+                    data : command
+                });
+                const time = new ROSLIB.Message({
+                    data : timestamp
+                });
+                const counter = new ROSLIB.Message({
+                    data : count_.toString()
+                });
+
+                // Example function to send command to ROS2 node
+                console.log("Sending command", command, "with timestamp", timestamp, "message count", count_);
+                Gobutton.publish(forward);
+                timeStampMsg.publish(time);
+                msgCount.publish(counter);
+             }
+
+            function fetchTimeSendToROS(command){
+                // Get the current host from the window location
+                var host = window.location.hostname;
+
+                // Construct the URL to fetch the timestamp from the Flask server
+                var url = 'http://' + host + ':5000/timestamp';
+
+                fetch(url)
+                .then(response => response.json())
+                .then(data => publishToROS(command, data.timestamp))
+                .catch(error => console.error('Error:', error));
+            }
+
+            function handleMouseEnter(direction) {
+                if (canSend) {
+                    fetchTimeSendToROS(direction);
+                    canSend = false; // Prevent further sends until mouse leaves
+                }
+            }
+
+            function resetAction() {
+                canSend = true; // Reset on mouse leave, allowing another send on re-enter
+                //fetchTimeSendToROS('stop') uncomment for non pid controller
+            }
+
+            // Expose functions to the global scope
+            window.fetchTimeSendToROS = fetchTimeSendToROS;
+            window.handleMouseEnter = handleMouseEnter;
+            window.resetAction = resetAction;
+        })();
+    });
+
+        var listener = new ROSLIB.Topic({
+        ros : ros,
+        name : '/obstacleStatus/CompressedImage', /*'/oak/rgb/image_raw/compressed',*/
+        messageType : 'sensor_msgs/CompressedImage'
+        });
+    
+  
+  //Subscribing to a image topic for the sake of it
+  // var empty_listener = new ROSLIB.Topic({
+  //  ros : ros,
+  //  name : '/obstacleStatus/Image',/*'/oak/rgb/image_raw'*/
+  //  messageType : 'sensor_msgs/Image'
+  //});
+
+        let totalBytes = 0;
+        let startTime = Date.now();
+        listener.subscribe(function(message) {
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = img.width; /// 2; // Reduce size by half
+                canvas.height = img.height;// / 2;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                document.getElementById('videoStream').src = canvas.toDataURL('image/jpeg'); // Reduce quality to 50%
+         };
+
+        img.src = "data:image/png;base64," + message.data;
+        let data = atob(message.data); // Decode base64
+        totalBytes += data.length; // Length in bytes
+
+        let currentTime = Date.now();
+        let elapsedSeconds = (currentTime - startTime) / 1000; // Convert ms to seconds
+        let throughput = totalBytes / elapsedSeconds; // Bytes per second
+
+        console.log(`Current Throughput: ${throughput} Bytes/sec`);
+        });
+
+    empty_listener.subscribe(function(message){
+    });
+
+    </script>
+    <head>
+        <title>Control UI</title>
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #forwardButton {
+                height: 20%;
+                width: 60%;
+                color: black;
+                position: fixed;
+                top: 0;
+                align-self: center;
+                opacity: 0.4;
+            }
+
+            #stopButton {
+                height: 15%;
+                width: 65%;
+                background-color: firebrick;
+                color: white;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                opacity: 1;
+                
+            }
+            #leftButton, #rightButton {
+                color: black;
+                width: 20%;
+                height: 85%;
+                position: fixed;
+                top: 0%;
+                opacity: 0.4;
+            }
+            #leftButton {
+                left: 0;
+            }
+            #rightButton {
+                right: 0;
+            }
+            button {
+            font-size: 44px;
+            }
+
+            #messageDisplay {
+            position: fixed;
+            right: 0;
+            top: 85%;
+            width: 35%;
+            height: 15%;
+            background-color: black;
+            color:lime;
+            font-size: 24px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 2px solid greenyellow; 
+            overflow-y: auto; 
+            }
+
+            #videoStream {
+                flex-grow: 1;
+                margin: auto;
+                top: 0;
+                height: 80%;
+                width: 100%; /* Adjust as per the aspect ratio of your video stream */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <button id="forwardButton" onmouseenter="handleMouseEnter('forward')" onmouseleave="resetAction()">Vooruit</button>
+        <div id="messageDisplay">Status</div>
+        <button id="leftButton" onmouseenter="handleMouseEnter('left')" onmouseleave="resetAction()">Links</button>
+        <button id="rightButton" onmouseenter="handleMouseEnter('right')" onmouseleave="resetAction()">Rechts</button>
+        <button id="stopButton" onmouseenter= "handleMouseEnter('stop')" onmouseleave="resetAction()">Stop</button>
+        <img id ="videoStream">Video Stream Goes Here</div>
+
+    </body>
+    
+</html>
