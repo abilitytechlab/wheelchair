@@ -1,7 +1,7 @@
-# wheelchair
+# Wheelchair
 The wheelchair repository
 
-## intro
+## Intro
 This project contains sources for the adaptive wheelchair control system - eventually offering a user assistive options (lane warning, adaptive cruise control) all the way up to fully autonomous (indoor) navigation.
 
 The first series of sources can be found in our [archive](https://github.com/abilitytechlab/archive/tree/main/sjoerd) 
@@ -15,3 +15,9 @@ This folder will contain the design files of the circuit emulating a joystick. T
 ![9-pol d-sub connection for joystick](https://github.com/abilitytechlab/wheelchair/blob/main/bridge/joystick.jpeg)
 
 
+## Arduino
+
+The Arduino Folder consist of the ino scripts for loop controller and some other scripts for calibrating the imu and testing the pid controller. It also include Arduino library files which were developed in this work. 
+
+## src
+The src folder should be extracted in a ROS 2 workspace. It consists of the packages required for the step-motion and continuous-motion modes
