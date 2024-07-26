@@ -1,5 +1,11 @@
-# Wheelchair
-The wheelchair repository
+# PWAO CSU
+Power Wheelchair Add On Control System Unit (PWAO CSU) consists of a set of different control software layers from User Interface(on MyTobii tablet) to Loop Controller (on Teensy).
+
+The software currently has 3 layers: User Interface Layer, Sequence Control Layer and Loop control layer.
+
+The Loop Control Layer is excecuted on a micro-controller, here a Teensy. This Teensy communicates with the Sequence Control Layer on a computer running ROS 2 using micro-ROS library. The communication between the ROS 2 computer and the User interface Layer happens over WebSocket protocol. For details and to understand the working please refer to https://essay.utwente.nl/100464/
+
+Make sure to have the following dependencies before downloading this software
 
 ## Intro
 This project contains sources for the adaptive wheelchair control system - eventually offering a user assistive options (lane warning, adaptive cruise control) all the way up to fully autonomous (indoor) navigation.
@@ -16,14 +22,7 @@ This folder will contain the design files of the circuit emulating a joystick. T
 
 
 
-# PWAO CSU
-Power Wheelchair Add On Control System Unit (PWAO CSU) consists of a set of different control software layers from User Interface(on MyTobii tablet) to Loop Controller (on Teensy).
 
-The software currently has 3 layers: User Interface Layer, Sequence Control Layer and Loop control layer.
-
-The Loop Control Layer is excecuted on a micro-controller, here a Teensy. This Teensy communicates with the Sequence Control Layer on a computer running ROS 2 using micro-ROS library. The communication between the ROS 2 computer and the User interface Layer happens over WebSocket protocol. For details and to understand the working please refer to https://essay.utwente.nl/100464/
-
-Make sure to have the following dependencies before downloading this software
 
 # Dependencies
 
