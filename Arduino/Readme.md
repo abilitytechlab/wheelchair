@@ -18,4 +18,5 @@ Adafruit Unified Sensor
 
 
 except the micro_ros_arduino library. The tutorial linked below describes the steps for installing and using micro_ros_arduino
-micro_ros_arduino -> https://micro.ros.org/docs/tutorials/core/teensy_with_arduino/
+
+ https://micro.ros.org/docs/tutorials/core/teensy_with_arduino/
