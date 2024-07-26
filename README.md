@@ -15,12 +15,6 @@ This folder will contain the design files of the circuit emulating a joystick. T
 ![9-pol d-sub connection for joystick](https://github.com/abilitytechlab/wheelchair/blob/main/bridge/joystick.jpeg)
 
 
-## Arduino
-
-The Arduino Folder consist of the ino scripts for loop controller and some other scripts for calibrating the imu and testing the pid controller. It also include Arduino library files which were developed in this work. 
-
-## src
-The src folder should be extracted in a ROS 2 workspace. It consists of the packages required for the step-motion and continuous-motion modes
 
 # Dependencies
 Install the Rplidar and Oak D lite ROS2 packages:
@@ -29,3 +23,10 @@ Slamtec Rplidar: https://github.com/Slamtec/sllidar_ros2
 
 Oak D lite: https://github.com/luxonis/depthai-ros
 
+
+## Arduino
+
+The Arduino Folder consist of the ino scripts for loop controller and some other scripts for calibrating the imu and testing the pid controller. It also include Arduino library files which were developed in this work. The instructions for installing micro_ros_arduino are in the this readme file of this directory
+
+## src
+The src folder should be extracted in a ROS 2 workspace. It consists of the packages required for the step-motion and continuous-motion modes
