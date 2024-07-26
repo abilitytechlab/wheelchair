@@ -11,7 +11,9 @@ imu_util and PIDController
 The following libraries have to be installed from Arduino Libraries:
 
 Adafruit BNO055
+
 Adafruit BusIO
+
 Adafruit Unified Sensor
 
 
