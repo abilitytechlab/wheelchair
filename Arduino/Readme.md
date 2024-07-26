@@ -10,11 +10,9 @@ imu_util and PIDController
 
 The following libraries have to be installed from Arduino Libraries:
 
-Adafruit BNO055
-
-Adafruit BusIO
-
-Adafruit Unified Sensor
+1. Adafruit BNO055
+2. Adafruit BusIO
+3. Adafruit Unified Sensor
 
 
 except the micro_ros_arduino library. The tutorial linked below describes the steps for installing and using micro_ros_arduino
