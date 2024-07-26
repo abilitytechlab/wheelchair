@@ -21,3 +21,11 @@ The Arduino Folder consist of the ino scripts for loop controller and some other
 
 ## src
 The src folder should be extracted in a ROS 2 workspace. It consists of the packages required for the step-motion and continuous-motion modes
+
+# Dependencies
+Install the Rplidar and Oak D lite ROS2 packages:
+
+Slamtec Rplidar: https://github.com/Slamtec/sllidar_ros2
+
+Oak D lite: https://github.com/luxonis/depthai-ros
+
