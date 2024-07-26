@@ -49,7 +49,7 @@ The Arduino Folder consist of the ino scripts for loop controller and some other
 The src folder should be extracted in a ROS 2 workspace. It consists of the packages required for the step-motion and continuous-motion modes
 
 ## flask-app
-The flask-app folder contains the python script for the flask application, called latency_test.py. The templates folder contain the 2 html required templates called onmouse.html for step-motion mode and onmouse2.html for continuous mode
+The flask-app folder contains the python script for the flask application, called latency_test.py. The templates folder contain the required html templates called onmouse.html for step-motion mode and onmouse2.html for continuous mode
 
 ## Running the demo
 Two bash scripts are given to run the two different modes.
@@ -63,8 +63,7 @@ To run the demo:
 1. Open Terminal in the folder where you installed the run_demo_x script.
 2. Run ``` ./run_demo_x.sh ```
 3. Make sure the teensy is connected to the wheelchair when you run this script.
-4. Open a browser on the same computer and navigate to localhost:5000 to check if a con-
-nection has been established.
+4. Open a browser on the same computer and navigate to localhost:5000 to check if a connection has been established.
 5. Check if the teensy has a yellow light continuously or blinking. If blinking then discon-
 nect Teensy and connect again. If steady yellow light then it should be connected.
 6. Turn on the wheelchair and test. Make sure the wheelchair profile is on profile:’5.1’ or ’4.1’
