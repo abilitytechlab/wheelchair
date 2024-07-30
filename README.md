@@ -60,7 +60,7 @@ You will have to change the 'cd' commands in the bash script before running. Mak
 
 To run the demo: 
 
-1. Open Terminal in the folder where you installed the run_demo_x script.
+1. Open Terminal in the folder where you installed the run_demo_x script. (x being pid or continuous)
 2. Run ``` ./run_demo_x.sh ```
 3. Make sure the teensy is connected to the wheelchair when you run this script.
 4. Open a browser on the same computer and navigate to localhost:5000 to check if a connection has been established.
