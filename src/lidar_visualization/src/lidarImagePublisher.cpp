@@ -21,7 +21,7 @@ public:
 
   LidarImagePublisher()
   : Node("lidar2image") //color/image topic
-  { 
+  { // Tried making a custom QOS profile. The liveliness_lease_duration and deadline values are random. Can be changed
     rclcpp::QoS custom_qos_profile(1);
     custom_qos_profile.reliability(RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT);
     custom_qos_profile.durability(RMW_QOS_POLICY_DURABILITY_VOLATILE);
@@ -46,12 +46,13 @@ private:
 
 void drawLine(cv::Mat &image) {
 
-  int line_y = image.rows / 2 ; // Adjust this to your needs
+  int line_y = image.rows / 2 ; // Adjust this according to where you want the obstacle status bar to show up
   int line_width = image.cols;
   int left_width = line_width * 0.25;
   //int right_width = line_width * 0.25;
   int center_width = line_width * 0.5;
 
+  // Green if no obstacle, red if obstacle present
   cv::Scalar center_color = obstacle.vector.x ? cv::Scalar(0, 0, 255) : cv::Scalar(0, 255, 0);
   cv::line(image, cv::Point(left_width, line_y), cv::Point(left_width + center_width, line_y), center_color, 3);
 
@@ -69,16 +70,18 @@ void timer_callback(){
     auto now = this->get_clock()->now();
     std_msgs::msg::Header header;
     header.stamp = now;
-    header.frame_id = "camera_frame";  // Example frame ID
-
+    header.frame_id = "camera_frame"; 
+  
     auto message = cv_bridge::CvImage(header, "bgr8", current_frame_).toImageMsg();
     lidarimagepublisher_->publish(*message);
     // Publish compressed image
     std::vector<uchar> buf;
+     // Higher the value, better the quality. Currently set to 20
     std::vector<int> compression_params = {cv::IMWRITE_JPEG_QUALITY, 20};
     cv::imencode(".jpg", current_frame_, buf,compression_params);
     auto compressed_msg = sensor_msgs::msg::CompressedImage();
-    compressed_msg.header = header;  // Maintain header consistency
+     // Maintain header consistency
+    compressed_msg.header = header;  
     compressed_msg.format = "jpeg";
     compressed_msg.data = std::move(buf);
     lidarimageCompressed_->publish(compressed_msg);
@@ -93,6 +96,7 @@ void imageCallback(const sensor_msgs::msg::Image::SharedPtr msg){
 
 }
 
+// requires a Stamped message (with a header)
 void obstacleCallback(const geometry_msgs::msg::Vector3Stamped msg){
     obstacle.vector.x = msg.vector.x;
     obstacle.vector.y = msg.vector.y;
