@@ -35,7 +35,7 @@ public:
   }
 
 private:
-
+  // need to check again for topics and set the correct ones
   void initializeTopicData(){
     // make this for sensor data and communication failure
     rclcpp::Time current_time = this->now();
@@ -44,7 +44,7 @@ private:
     topics_.emplace_back("imu",current_time);
     topics_.emplace_back("color/image",current_time);
   }
-
+// creates subscriptions for all the topics listed in the initializeTopicData
   void setupSubscriptions(){
     for(auto& topic : topics_){
       auto callback = [this, &topic](const std_msgs::msg::String::SharedPtr msg){
@@ -53,7 +53,7 @@ private:
       topicSubscriptions_.push_back(this->create_subscription<std_msgs::msg::String>(topic.topicName,10, callback));
     }
   }
-  
+  // publishes the error message 
   void publish_error(ErrorHandler& error)
   { 
     std_msgs::msg::String message;  
@@ -94,7 +94,7 @@ private:
   std::vector<rclcpp::Subscription<std_msgs::msg::String>::SharedPtr> topicSubscriptions_;
   rclcpp::TimerBase::SharedPtr timer_;
   rclcpp::Publisher<std_msgs::msg::String>::SharedPtr publisher_;
-  const int timeoutThreshold_ = 3; // 3 seconds
+  const int timeoutThreshold_ = 2; // 2 seconds
 };
 
 int main(int argc, char * argv[])
