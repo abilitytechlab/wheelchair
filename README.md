@@ -64,9 +64,8 @@ To run the demo:
 2. Run ``` ./run_demo_x.sh ```
 3. Make sure the teensy is connected to the wheelchair when you run this script.
 4. Open a browser on the same computer and navigate to localhost:5000 to check if a connection has been established.
-5. Check if the teensy has a yellow light continuously or blinking. If blinking then discon-
-nect Teensy and connect again. If steady yellow light then it should be connected.
+5. Check if the teensy has a yellow light continuously or blinking. If blinking then disconnect Teensy and connect again. If steady yellow light then it should be connected.
 6. Turn on the wheelchair and test. Make sure the wheelchair profile is on profile:’5.1’ or ’4.1’
-7. To restart, close all terminal windows. Turn of wheelchair, plug out the teensy usb. Then run the script again(from instruction 1). Connect the white usb back to the teensy and wait for it to output a steady yellow light. Make sure to refresh the browser page and it should work.
+7. To restart, close all terminal windows. Turn of wheelchair, plug out the teensy usb. Then run the script again(from instruction 1). Connect the usb back to the teensy and wait for it to output a steady yellow light. Make sure to refresh the browser page and it should work.
 
 Warning: Turn Off The Wheelchair Before Plugging Off The Teensy USB Cable
